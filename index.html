@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026년 한국 해외여행 동향 및 산업 구조 재편 대시보드 (KRDS 스타일)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        krdsBg: '#F2F4F7',
+                        krdsCard: '#FFFFFF',
+                        krdsPrimary: '#004EA2',      /* KRDS Core Deep Blue */
+                        krdsPrimaryDark: '#003370',  /* KRDS Dark Blue */
+                        krdsPrimaryLight: '#EBF2FA', /* KRDS Light Blue Tint */
+                        krdsSecondary: '#059669',    /* KRDS Forest Emerald */
+                        krdsAccent: '#D9381E',       /* KRDS Red Accent */
+                        krdsTextMain: '#111827',     /* KRDS Main Text */
+                        krdsTextSub: '#4B5563',      /* KRDS Sub Text */
+                        krdsBorder: '#E5E7EB',       /* KRDS Standard Border */
+                        krdsHeaderBg: '#002752'     /* KRDS Top Header */
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F2F4F7;
+            color: #111827;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 380px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        /* KRDS Tab Styling */
+        .krds-tab {
+            border-bottom: 3px solid transparent;
+            color: #4B5563;
+            transition: all 0.2s ease-in-out;
+        }
+        .krds-tab:hover {
+            color: #004EA2;
+            border-bottom-color: #93C5FD;
+        }
+        .krds-tab.active {
+            border-bottom: 3px solid #004EA2;
+            color: #004EA2;
+            font-weight: 700;
+            background-color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-krdsTextMain">
+
+<!-- Chosen Palette: KRDS (Korea Design System) Official Theme (Primary Deep Blue #004EA2, Header #002752, Light Gray Canvas #F2F4F7, White Card #FFFFFF, Accent Red #D9381E, Emerald #059669) -->
+
+<!-- Application Structure Plan: 
+    1. Header & Identity Band: Implements KRDS official public service header structure with top standard band, crisp title, clear operational badges, and responsive metadata display.
+    2. KRDS Accessible Tab Bar: Styled according to Korean Republic Design System guidelines with high-contrast active state indicators and standard focus outlines.
+    3. Content Modules: Formatted into official structured KRDS card containers featuring clean 1px borders, subtle drop shadows, color-coded top accent bands for metric KPIs, standard form inputs for the interactive fuel calculator, and clear grid layouts.
+    4. Data Presentation: All underlying report facts, figures, and calculations are kept 100% intact while updated visually with KRDS-aligned typography, spacing, and Chart.js color schemes.
+-->
+
+<!-- Visualization & Content Choices:
+    - Maintained exact dataset and interactive logic from original report.
+    - Colors updated to match KRDS high-accessibility standards (KRDS Deep Blue, KRDS Emerald, KRDS Slate).
+-->
+
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- KRDS Top Government Identity Band -->
+    <div class="bg-slate-900 text-slate-300 text-xs py-1.5 px-4 sm:px-8 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-krdsPrimary"></span>
+                <span class="font-medium tracking-tight">대한민국 관광산업 정책 데이터 대시보드 (KRDS 표준 가이드라인 적용)</span>
+            </div>
+            <span class="hidden sm:inline-block text-slate-400">최종 업데이트: 2026년 하반기 동향 기준</span>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="bg-krdsHeaderBg text-white border-b border-slate-700 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="bg-krdsPrimary text-white text-xs px-2.5 py-0.5 rounded font-semibold tracking-wide">2026 동향 심층 분석</span>
+                    <span class="text-xs text-slate-300">최초 3,000만 출국자 시대</span>
+                </div>
+                <h1 class="text-xl md:text-2xl font-bold mt-1 text-white tracking-tight">2026년 한국 해외여행 동향 및 산업 구조 재편</h1>
+            </div>
+            <div class="flex gap-3 text-xs sm:text-sm">
+                <div class="bg-white/10 px-3.5 py-2 rounded-md border border-white/15 backdrop-blur-sm">
+                    <span class="text-slate-300 block text-[11px]">연간 예상 출국자</span>
+                    <span class="text-base font-bold text-amber-300">3,000만+ 명</span>
+                </div>
+                <div class="bg-white/10 px-3.5 py-2 rounded-md border border-white/15 backdrop-blur-sm">
+                    <span class="text-slate-300 block text-[11px]">관광수지 현황</span>
+                    <span class="text-base font-bold text-emerald-300">26년 만에 흑자 전환</span>
+                </div>
+                <div class="bg-white/10 px-3.5 py-2 rounded-md border border-white/15 backdrop-blur-sm">
+                    <span class="text-slate-300 block text-[11px]">일본 점유율</span>
+                    <span class="text-base font-bold text-blue-200">37.9% (상반기)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs (KRDS Style) -->
+        <div class="bg-slate-100 border-t border-slate-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
+                <nav class="flex space-x-1 text-sm whitespace-nowrap pt-1" id="tabNav">
+                    <button onclick="switchTab('macro')" id="tab-macro" class="krds-tab active py-3 px-4 font-semibold rounded-t-md">1. 거시 경제 & 관광수지</button>
+                    <button onclick="switchTab('aviation')" id="tab-aviation" class="krds-tab py-3 px-4 font-semibold rounded-t-md">2. 항공 & 인프라</button>
+                    <button onclick="switchTab('destination')" id="tab-destination" class="krds-tab py-3 px-4 font-semibold rounded-t-md">3. 목적지 지형도 & 세금</button>
+                    <button onclick="switchTab('platform')" id="tab-platform" class="krds-tab py-3 px-4 font-semibold rounded-t-md">4. 유통 구조 & 플랫폼</button>
+                    <button onclick="switchTab('trend')" id="tab-trend" class="krds-tab py-3 px-4 font-semibold rounded-t-md">5. 소비 행태 & 기후 리스크</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ================= SECTION 1: MACRO & BALANCE OF TRADE ================= -->
+        <section id="sec-macro" class="space-y-6">
+            <div class="bg-krdsCard p-6 rounded-lg shadow-sm border border-krdsBorder">
+                <div class="flex items-center space-x-2 mb-2">
+                    <span class="w-1.5 h-6 bg-krdsPrimary rounded-full"></span>
+                    <h2 class="text-xl font-bold text-krdsTextMain">1. 거시 경제적 요인과 여행 수지의 지각 변동</h2>
+                </div>
+                <p class="text-krdsTextSub text-sm leading-relaxed mb-6 pl-3">
+                    2026년 대한민국 관광 시장의 가장 주목할 만한 거시경제적 성과는 2000년 이후 26년 만에 거둔 관광수지의 흑자 전환 기틀 마련입니다. 
+                    지속적인 고환율 기조 속에서 내국인은 해외 현지 소비(달러 지출)를 축소한 반면, 원화 약세 수혜를 입은 방한 외래 관광객이 역대 최대치를 경신하고 의료 관광 등 고부가가치 지출을 늘리며 수지 구조가 전면 개편되었습니다.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-krdsCard p-4 rounded-lg border-t-4 border-t-krdsPrimary border-x border-b border-krdsBorder shadow-sm">
+                        <div class="text-xs text-krdsPrimary font-bold uppercase tracking-wide">2026 상반기 내국인 출국</div>
+                        <div class="text-2xl font-extrabold text-krdsTextMain mt-2">1,496.2만 명</div>
+                        <div class="text-xs text-krdsTextSub mt-1">2019년 동기 대비 99.7% 회복</div>
+                    </div>
+                    <div class="bg-krdsCard p-4 rounded-lg border-t-4 border-t-krdsSecondary border-x border-b border-krdsBorder shadow-sm">
+                        <div class="text-xs text-krdsSecondary font-bold uppercase tracking-wide">2026 상반기 방한 외래객</div>
+                        <div class="text-2xl font-extrabold text-krdsTextMain mt-2">1,071만 명</div>
+                        <div class="text-xs text-krdsSecondary mt-1 font-medium">전년 동기 대비 +21.3% (역대 최대)</div>
+                    </div>
+                    <div class="bg-krdsCard p-4 rounded-lg border-t-4 border-t-amber-500 border-x border-b border-krdsBorder shadow-sm">
+                        <div class="text-xs text-amber-700 font-bold uppercase tracking-wide">1인당 해외 지출액 (달러)</div>
+                        <div class="text-2xl font-extrabold text-krdsTextMain mt-2">$993.7</div>
+                        <div class="text-xs text-amber-700 mt-1 font-medium">전년 대비 -6.0% (현지 절약)</div>
+                    </div>
+                    <div class="bg-krdsCard p-4 rounded-lg border-t-4 border-t-blue-500 border-x border-b border-krdsBorder shadow-sm">
+                        <div class="text-xs text-blue-700 font-bold uppercase tracking-wide">외국인 1인당 지출액</div>
+                        <div class="text-2xl font-extrabold text-krdsTextMain mt-2">$1,270.4</div>
+                        <div class="text-xs text-blue-700 mt-1 font-medium">전년 대비 +12.4% (한국서 적극 소비)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Chart 1: Tourism Spending vs Foreigner Spending -->
+                <div class="bg-krdsCard p-5 rounded-lg shadow-sm border border-krdsBorder flex flex-col">
+                    <div class="mb-4">
+                        <h3 class="font-bold text-krdsTextMain text-base">내·외국인 관광 지출 및 체감 지출 비교</h3>
+                        <p class="text-xs text-krdsTextSub mt-0.5">환율 비대칭성으로 인한 내국인 원화 체감지출 급증 vs 달러 지출 감소</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="macroChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-xs text-slate-700 bg-krdsPrimaryLight p-3.5 rounded-md border border-blue-200">
+                        <strong>핵심 인사이트:</strong> 달러 기준 1인당 해외 지출은 6% 줄었으나, 원-달러 환율(1,469원/달러 등) 영향으로 내국인의 원화 기준 체감 지출은 2019년 대비 <strong>32.9% 급증</strong>했습니다.
+                    </div>
+                </div>
+
+                <!-- Sector Paradox: Medical Tourism vs Duty Free -->
+                <div class="bg-krdsCard p-5 rounded-lg shadow-sm border border-krdsBorder flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-krdsTextMain text-base mb-1">관광 산업 부문별 명암: 의료관광 정점 vs 면세점 고전</h3>
+                        <p class="text-xs text-krdsTextSub mb-4">관광수지 개선 이면에 존재하는 극명한 산업 구조 양극화</p>
+                        
+                        <div class="space-y-3.5">
+                            <div class="border-l-4 border-krdsSecondary pl-4 py-2 bg-emerald-50/70 rounded-r-md border-y border-r border-emerald-100">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-sm text-emerald-950">외국인 의료 관광 소비액</span>
+                                    <span class="text-emerald-700 font-extrabold text-base">1조 1,931억 원</span>
+                                </div>
+                                <p class="text-xs text-slate-600 mt-1">2019년 동기의 <strong>6.6배</strong>, 전년 동기 대비 <strong>+59.1% 폭증</strong>. K-뷰티 및 첨단 시술이 인바운드 수지 흑자를 견인.</p>
+                            </div>
+
+                            <div class="border-l-4 border-krdsAccent pl-4 py-2 bg-rose-50/70 rounded-r-md border-y border-r border-rose-100">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-sm text-rose-950">외국인 면세점 1인당 매출</span>
+                                    <span class="text-rose-700 font-extrabold text-base">$506.7</span>
+                                </div>
+                                <p class="text-xs text-slate-600 mt-1">2019년($870.5) 대비 <strong>-41.8% 급감</strong>. 이용객 수 또한 30.9% 감소한 664.4만 명에 그침.</p>
+                            </div>
+
+                            <div class="border-l-4 border-amber-500 pl-4 py-2 bg-amber-50/70 rounded-r-md border-y border-r border-amber-100">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-sm text-amber-950">내국인 면세점 총매출</span>
+                                    <span class="text-amber-800 font-extrabold text-base">1조 4,783억 원</span>
+                                </div>
+                                <p class="text-xs text-slate-600 mt-1">출국자 증가에도 고환율로 가격 메리트 상실. 명품 쇼핑 대신 현지 마트/식도락 위주로 소비 패턴 이동.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3 bg-slate-100 rounded-md border border-slate-200 text-xs text-slate-700">
+                        📌 <strong>소비 패러다임 변화:</strong> 아웃바운드 여행객들은 면세품 쇼핑 예산을 줄이고 현지 로컬 체류 및 체험형 쇼핑(마트 어택 등)으로 지출 항목을 전환하고 있습니다.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 2: AVIATION & INFRASTRUCTURE ================= -->
+        <section id="sec-aviation" class="space-y-6 hidden">
+            <div class="bg-krdsCard p-6 rounded-lg shadow-sm border border-krdsBorder">
+                <div class="flex items-center space-x-2 mb-2">
+                    <span class="w-1.5 h-6 bg-krdsPrimary rounded-full"></span>
+                    <h2 class="text-xl font-bold text-krdsTextMain">2. 항공 산업 및 인프라 지형 변화: 유류할증료 부담과 메가 허브</h2>
+                </div>
+                <p class="text-krdsTextSub text-sm leading-relaxed mb-6 pl-3">
+                    2026년 해외여행 비용 상승의 가장 큰 원인은 중동 지정학적 불안으로 인한 유류할증료 폭등이었습니다. 최고 33단계까지 오른 유류할증료는 장거리 노선 수요를 억제하고 단거리 쏠림 현상을 가속화했습니다. 한편 LCC의 중장거리 진입과 지방 공항 성장, 인천공항 4단계 확장 완료는 공급망 안정화를 이끌었습니다.
+                </p>
+
+                <!-- Fuel Surcharge Interactive Calculator Component (KRDS Form Style) -->
+                <div class="bg-slate-50 p-6 rounded-lg border border-slate-300">
+                    <h3 class="font-bold text-krdsPrimary text-base mb-1 flex items-center gap-2">
+                        <span>✈️ 2026년 국제선 유류할증료 부담 시뮬레이터</span>
+                    </h3>
+                    <p class="text-xs text-krdsTextSub mb-5">목적지 구간 및 인원수를 선택하여 유류할증료(편도/왕복) 총액 및 2027년 개편안 적용 시 예상 절감액을 확인하세요.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+                        <div>
+                            <label class="block text-xs font-bold text-krdsTextMain mb-1.5">목적지 노선 선택 (대한항공 기준)</label>
+                            <select id="calc-route" onchange="updateFuelCalc()" class="w-full text-sm bg-white border border-slate-300 rounded-md p-2.5 focus:ring-2 focus:ring-krdsPrimary focus:border-krdsPrimary outline-none">
+                                <option value="1">1구간 (~499마일): 후쿠오카, 칭다오 (49,000원)</option>
+                                <option value="2">2구간 (500~999마일): 도쿄, 오사카, 타이베이 (65,800원)</option>
+                                <option value="4">4구간 (1,500~1,999마일): 다낭, 하노이, 세부 (116,200원)</option>
+                                <option value="5">5구간 (2,000~2,999마일): 방콕, 싱가포르, 괌 (162,400원)</option>
+                                <option value="8">8구간 (5,000~6,499마일): 런던, 파리, LA, 시드니 (322,000원)</option>
+                                <option value="9" selected>9구간 (6,500~9,999마일): 뉴욕, 시카고, 토론토 (362,600원)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-krdsTextMain mb-1.5">여행 인원</label>
+                            <select id="calc-people" onchange="updateFuelCalc()" class="w-full text-sm bg-white border border-slate-300 rounded-md p-2.5 focus:ring-2 focus:ring-krdsPrimary focus:border-krdsPrimary outline-none">
+                                <option value="1">1인 (개인 여행)</option>
+                                <option value="2">2인 (커플/친구)</option>
+                                <option value="4" selected>4인 (가족 여행)</option>
+                                <option value="6">6인 (소규모 그룹)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-krdsTextMain mb-1.5">여정 구분</label>
+                            <select id="calc-trip" onchange="updateFuelCalc()" class="w-full text-sm bg-white border border-slate-300 rounded-md p-2.5 focus:ring-2 focus:ring-krdsPrimary focus:border-krdsPrimary outline-none">
+                                <option value="1">편도 (One-way)</option>
+                                <option value="2" selected>왕복 (Round-trip)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Calculator Results Display -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-5 rounded-md border border-slate-300 shadow-sm">
+                        <div>
+                            <span class="text-xs text-krdsTextSub block">현행 총 유류할증료 부담금</span>
+                            <span id="res-total" class="text-xl font-extrabold text-krdsAccent">2,900,800 원</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-krdsTextSub block">유류할증료가 전체 여행 예산에서 차지하는 비중</span>
+                            <span id="res-share" class="text-lg font-bold text-krdsPrimary">약 35~40% 잠식</span>
+                        </div>
+                        <div class="border-t md:border-t-0 md:border-l border-slate-200 pt-3 md:pt-0 md:pl-5">
+                            <span class="text-xs text-krdsSecondary block font-bold">2027년 3월 개편안 시 추정 절감액 (-41%)</span>
+                            <span id="res-savings" class="text-lg font-bold text-krdsSecondary">약 1,189,328 원 절감</span>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-3">※ 소비자단체 분석 결과: 화물 배분비율 산정 오류 및 환율 적용 거품 제거 시 평균 41% 인하 여력 존재 (국토부 2027년 3월 개편 고시 예고)</p>
+                </div>
+            </div>
+
+            <!-- Aviation Infrastructure Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- LCC Long Haul Expansion -->
+                <div class="bg-krdsCard p-5 rounded-lg shadow-sm border border-krdsBorder">
+                    <h3 class="font-bold text-krdsTextMain mb-1 text-base">LCC & 하이브리드 항공사의 중장거리 약진</h3>
+                    <p class="text-xs text-krdsTextSub mb-4">FSC 전유물이던 미주/유럽 노선 가성비 개척</p>
+                    
+                    <div class="space-y-3 text-sm">
+                        <div class="p-3.5 bg-slate-50 rounded-md border border-slate-200">
+                            <div class="flex justify-between font-bold text-slate-900">
+                                <span>티웨이항공 (유럽 노선)</span>
+                                <span class="text-krdsAccent font-extrabold">탑승률 90%</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-1">로마, 파리, 바르셀로나 취항. 1분기 별도 매출 6,122억 원(+37%), 영업이익 199억 원 흑자 달성.</p>
+                        </div>
+
+                        <div class="p-3.5 bg-slate-50 rounded-md border border-slate-200">
+                            <div class="flex justify-between font-bold text-slate-900">
+                                <span>에어프레미아 (미주 서부)</span>
+                                <span class="text-krdsPrimary font-bold">점유율 20.8%</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-1">LA, 샌프란시스코 취항 4년 만에 성과. 와이드 프리미엄석 탑승률(83.2%)이 이코노미 상회. 환승객 +454.2% 폭증.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Airport Infrastructure -->
+                <div class="bg-krdsCard p-5 rounded-lg shadow-sm border border-krdsBorder">
+                    <h3 class="font-bold text-krdsTextMain mb-1 text-base">공항 인프라 양극화 & 인천공항 4단계</h3>
+                    <p class="text-xs text-krdsTextSub mb-4">지방 공항 간 명암 및 글로벌 메가허브 도약</p>
+
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-md border border-slate-200">
+                            <span class="text-xl">🛫</span>
+                            <div>
+                                <div class="font-bold text-slate-900 text-xs">청주국제공항 (중부권 허브)</div>
+                                <div class="text-xs text-slate-600 mt-0.5">1~9월 이용객 174만 명 (+33.7%, 지방 공항 1위). 정기 노선 21개 운항.</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-md border border-slate-200">
+                            <span class="text-xl">🛬</span>
+                            <div>
+                                <div class="font-bold text-slate-900 text-xs">김해공항 vs 대구공항</div>
+                                <div class="text-xs text-slate-600 mt-0.5">김해: 주말 슬롯 540회 확장 및 40개 노선 수용. 대구: 정기 노선 14개로 감소하며 격차 심화.</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3 p-3 bg-krdsPrimaryLight rounded-md border border-blue-200">
+                            <span class="text-xl">🌐</span>
+                            <div>
+                                <div class="font-bold text-krdsPrimary text-xs">인천공항 4단계 확장 완료 (2026.12.3)</div>
+                                <div class="text-xs text-slate-700 mt-0.5">T2 확장 & 제4활주로. 연간 수용용량 7,700만→1억 6,000만 명. 세계 3대 메가허브 도약.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 3: DESTINATIONS & TAXES ================= -->
+        <section id="sec-destination" class="space-y-6 hidden">
+            <div class="bg-krdsCard p-6 rounded-lg shadow-sm border border-krdsBorder">
+                <div class="flex items-center space-x-2 mb-2">
+                    <span class="w-1.5 h-6 bg-krdsPrimary rounded-full"></span>
+                    <h2 class="text-xl font-bold text-krdsTextMain">3. 목적지 다변화와 양극화 심층 분석</h2>
+                </div>
+                <p class="text-krdsTextSub text-sm leading-relaxed mb-6 pl-3">
+                    2026년 해외여행지는 단거리 아시아 국가(일본, 베트남, 중국)로의 강력한 쏠림과 장거리 목적지의 미회복이라는 양극화를 보입니다. 
+                    특히 일본은 슈퍼 엔저로 독주했으나 현지 오버투어리즘 반작용으로 이중가격제와 세금을 전면 도입했습니다. 반면 중국은 무비자 연장 특수로 방문객이 급증했습니다.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Top Destinations Chart -->
+                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-300 flex flex-col">
+                        <h3 class="font-bold text-krdsTextMain text-sm mb-1">2025-2026 주요 목적지별 출국자 수 (만 명)</h3>
+                        <p class="text-xs text-krdsTextSub mb-3">일본 독주 속 중국의 급부상과 태국/장거리 노선의 조정</p>
+                        <div class="chart-container">
+                            <canvas id="destinationChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Japan Dual Pricing & Global Taxes Breakdown -->
+                    <div class="space-y-4">
+                        <div class="bg-amber-50/80 p-5 rounded-lg border border-amber-200">
+                            <h3 class="font-bold text-amber-950 text-base mb-2 flex items-center gap-1.5">
+                                <span>⛩️ 일본의 오버투어리즘과 '이중가격제' 패널티</span>
+                            </h3>
+                            <p class="text-xs text-slate-700 leading-relaxed mb-3">
+                                상반기 출국자의 <strong>37.9%(567.5만 명)</strong>가 일본으로 향하면서 현지 수용 한계 초과. 일본 지자체들은 외지인 대상 강력한 차등 요금을 적용하기 시작했습니다.
+                            </p>
+                            <ul class="space-y-2 text-xs text-slate-700">
+                                <li class="bg-white p-3 rounded-md border border-amber-200 shadow-sm">
+                                    <strong class="text-amber-900">히메지성 (2026.3~):</strong> 외국인/외지인 입장료 1,000엔 → <strong>2,500엔</strong> (2.5배 기습 인상)
+                                </li>
+                                <li class="bg-white p-3 rounded-md border border-amber-200 shadow-sm">
+                                    <strong class="text-amber-900">교토시 버스 & 니조성:</strong> 니조성 시민 1,000엔 vs 외지인 2,000엔 적용. 버스 요금 시민 200엔 / 관광객 400엔 추진.
+                                </li>
+                                <li class="bg-white p-3 rounded-md border border-amber-200 shadow-sm">
+                                    <strong class="text-amber-900">국제관광여객세 (출국세):</strong> 2026년 7월부터 기존 1,000엔 → <strong>3,000엔</strong>으로 3배 폭증.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- China & Long Haul Status -->
+                        <div class="bg-krdsPrimaryLight p-4 rounded-lg border border-blue-200 text-xs">
+                            <h4 class="font-bold text-krdsPrimary text-sm mb-1.5">🇨🇳 중국 무비자 특수 vs 🇺🇸 장거리 고전</h4>
+                            <p class="text-slate-700 mb-2 leading-relaxed">
+                                <strong>중국:</strong> 비자 면제 연장에 힘입어 2026 상반기 171.4만 명 방문 (+16.0%~24.2% 폭증). 베이징, 상하이 및 장가계 등자연 레저 완벽 회복.
+                            </p>
+                            <p class="text-slate-700 leading-relaxed">
+                                <strong>미국/유럽:</strong> 미국 상반기 63.2만 명(2019 대비 -40.8%), 필리핀(-40.5%), 홍콩(-38.7%) 등 고환율/유류세 부담으로 복구 둔화.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 4: PLATFORM & PACKAGE ================= -->
+        <section id="sec-platform" class="space-y-6 hidden">
+            <div class="bg-krdsCard p-6 rounded-lg shadow-sm border border-krdsBorder">
+                <div class="flex items-center space-x-2 mb-2">
+                    <span class="w-1.5 h-6 bg-krdsPrimary rounded-full"></span>
+                    <h2 class="text-xl font-bold text-krdsTextMain">4. 유통 구조의 혁신: 플랫폼 패권 경쟁과 미래형 패키지</h2>
+                </div>
+                <p class="text-krdsTextSub text-sm leading-relaxed mb-6 pl-3">
+                    개별자유여행(FIT) 비중이 65%를 넘어선 가운데, 앱 이용자 수(MAU)는 국내 토종 플랫폼이 우위이나 실제 매출액은 글로벌 OTA로 쏠리는 '외화내빈' 현상이 심화되었습니다. 
+                    한편 전통 패키지사들은 쇼핑·옵션·팁을 없앤 '3無 프리미엄'과 '세미 패키지'로 수익성 반등을 이뤄냈습니다.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Chart: Domestic vs Global OTA Paradox -->
+                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-300 flex flex-col">
+                        <div class="mb-3">
+                            <h3 class="font-bold text-krdsTextMain text-sm">토종 vs 글로벌 여행 플랫폼 '외화내빈' 비교</h3>
+                            <p class="text-xs text-krdsTextSub mt-0.5">MAU(월 방문자) 우위에도 해외 고단가 결제 유출로 매출 역전 발생</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="platformChart"></canvas>
+                        </div>
+                        <p class="text-[11px] text-slate-600 mt-3 bg-white p-3 rounded-md border border-slate-200">
+                            <strong>원인 분석:</strong> 야놀자/여기어때는 국내 숙박 위주로 트래픽은 높으나 결제 단가가 낮음. 반면 아고다(2,841억 원) 및 트립닷컴(1,917억 원)은 아웃바운드 해외 항공/호텔 결제액을 싹쓸이함.
+                        </p>
+                    </div>
+
+                    <!-- Modern Package Renaissance & MyRealTrip Model -->
+                    <div class="space-y-4">
+                        <!-- MyRealTrip Success Case -->
+                        <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200 shadow-sm">
+                            <div class="flex justify-between items-center mb-1.5">
+                                <h3 class="font-bold text-emerald-950 text-sm">🚀 마이리얼트립: 토종 슈퍼앱의 첫 당기순이익 흑자</h3>
+                                <span class="bg-emerald-700 text-white text-[10px] font-bold px-2 py-0.5 rounded">상반기 매출 1,120억</span>
+                            </div>
+                            <p class="text-xs text-emerald-900 leading-relaxed">
+                                외부 대형 광고비 대신 크리에이터 중심 '마케팅 파트너 프로그램' 거래액을 73억 원에서 <strong>834억 원으로 10배 성장</strong>시키며 디지털 영업망 구축 성공.
+                            </p>
+                        </div>
+
+                        <!-- Package Renaissance Features -->
+                        <div class="bg-white p-5 rounded-lg border border-krdsBorder shadow-sm space-y-3.5">
+                            <h3 class="font-bold text-krdsTextMain text-sm border-b border-slate-200 pb-2.5">📦 2026 미래형 패키지 3대 생존 방정식</h3>
+                            
+                            <div class="flex items-start gap-3">
+                                <span class="bg-krdsPrimary text-white font-bold text-xs px-2 py-0.5 rounded">1</span>
+                                <div>
+                                    <h4 class="text-xs font-bold text-krdsTextMain">3無 프리미엄 패키지 (하나투어 비중 54%)</h4>
+                                    <p class="text-[12px] text-krdsTextSub mt-0.5">노쇼핑, 노옵션, 노가이드팁. 현지 추가 지출 불확실성을 배제하여 30~50대 신뢰 회복.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <span class="bg-krdsPrimary text-white font-bold text-xs px-2 py-0.5 rounded">2</span>
+                                <div>
+                                    <h4 class="text-xs font-bold text-krdsTextMain">세미 패키지 (Semi-Package)</h4>
+                                    <p class="text-[12px] text-krdsTextSub mt-0.5">항공/숙소와 위기관리 안전망은 보장하되 일정의 30~50%는 자유시간 제공. 직장인/다세대 가족 인기.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <span class="bg-krdsPrimary text-white font-bold text-xs px-2 py-0.5 rounded">3</span>
+                                <div>
+                                    <h4 class="text-xs font-bold text-krdsTextMain">취향 기반 '밍글링(Mingling) 투어' (+560% 폭증)</h4>
+                                    <p class="text-[12px] text-krdsTextSub mt-0.5">운동, 미식, 러닝 등 공통 관심사 기반 당일 소모임 형태 결합. 혼행족의 새로운 네트워킹 플랫폼화.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 5: TRENDS & RISKS ================= -->
+        <section id="sec-trend" class="space-y-6 hidden">
+            <div class="bg-krdsCard p-6 rounded-lg shadow-sm border border-krdsBorder">
+                <div class="flex items-center space-x-2 mb-2">
+                    <span class="w-1.5 h-6 bg-krdsPrimary rounded-full"></span>
+                    <h2 class="text-xl font-bold text-krdsTextMain">5. 초개인화 소비 행태 & 기후 변화 외부 충격</h2>
+                </div>
+                <p class="text-krdsTextSub text-sm leading-relaxed mb-6 pl-3">
+                    2026년 한국 여행객, 특히 Z세대는 생성형 AI를 활용한 정교한 일정 수립과 동시에 아날로그 감성을 즐기는 이중적 소비를 보입니다. 
+                    더불어 여름철 폭염 고착화로 서늘한 지역을 찾는 '쿨케이션(Cool-cation)'과 심신 치유형 '글로우케이션'이 새로운 트렌드로 자리 잡았습니다.
+                </p>
+
+                <!-- Interactive Trend Grid (KRDS Styled Cards) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <!-- Z-Gen AI & Behavior -->
+                    <div class="bg-white p-5 rounded-lg border border-slate-300 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-bold text-krdsPrimary uppercase tracking-wider">Z세대 디지털 문법</span>
+                                <span class="bg-krdsPrimary text-white text-[10px] px-2 py-0.5 rounded font-bold">AI 74%</span>
+                            </div>
+                            <h3 class="font-bold text-krdsTextMain text-base mb-2">생성형 AI 플래닝 & 감성 딜레마</h3>
+                            <p class="text-xs text-krdsTextSub leading-relaxed mb-4">
+                                챗GPT 등으로 일정을 짜는 비중이 74%로 글로벌 최상위 수준. 그러나 동시에 52%는 별자리/운세 등 미신적 컨디션을 신경 쓰고, 43%는 인스타그램 감성에 맞춰 예산 절감을 감수합니다.
+                            </p>
+                        </div>
+                        <div class="bg-slate-100 p-3 rounded text-[11px] text-slate-700 font-medium border border-slate-200">
+                            💡 <strong>비용 vs 감성:</strong> 51%가 "휴가를 위해 재정적 희생 감수" 의사 표시.
+                        </div>
+                    </div>
+
+                    <!-- Mart Attack & Local Life -->
+                    <div class="bg-white p-5 rounded-lg border border-slate-300 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">로컬 라이프스타일</span>
+                                <span class="bg-amber-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">체험형 56%</span>
+                            </div>
+                            <h3 class="font-bold text-krdsTextMain text-base mb-2">마트 어택 & 이색 체크인</h3>
+                            <p class="text-xs text-krdsTextSub leading-relaxed mb-4">
+                                피상적 관광지 방문 대신 대형 마트/슈퍼마켓 투어가 필수 코스(56%). 숙소 자체가 목적지가 되는 이색 체크인 경험(44%) 및 현지 일상 침투형 소비 고착화.
+                            </p>
+                        </div>
+                        <div class="bg-slate-100 p-3 rounded text-[11px] text-slate-700 font-medium border border-slate-200">
+                            🛒 <strong>마트 어택:</strong> 식재료 탐구를 통한 현지인 식문화 동화 현상.
+                        </div>
+                    </div>
+
+                    <!-- Cool-cation & Climate Risk -->
+                    <div class="bg-white p-5 rounded-lg border border-slate-300 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">기후 위기 대안</span>
+                                <span class="bg-teal-700 text-white text-[10px] px-2 py-0.5 rounded font-bold">쿨케이션</span>
+                            </div>
+                            <h3 class="font-bold text-krdsTextMain text-base mb-2">쿨케이션 & 글로우케이션</h3>
+                            <p class="text-xs text-krdsTextSub leading-relaxed mb-4">
+                                40도 폭염의 남유럽 대신 핀란드, 북유럽, 삿포로 등 한랭 지대로 피서 이동. 피서 여행자는 일반객 대비 <strong>1.3배 멀리 이동, 1.4배 높은 비용 지불</strong>.
+                            </p>
+                        </div>
+                        <div class="bg-slate-100 p-3 rounded text-[11px] text-slate-700 font-medium border border-slate-200">
+                            🧘 <strong>하이엔드 웰니스:</strong> 첨단 장비 피부 재생(Glow-cation) 및 레이지 리트릿.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Global Tax Spike Summary Table (KRDS Standard Table Format) -->
+                <div class="mt-6 bg-krdsCard p-6 rounded-lg border border-krdsBorder shadow-sm">
+                    <h3 class="font-bold text-krdsTextMain text-base mb-3">💸 2026 글로벌 입장료 & 세금 인상 도미노 요약</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-krdsTextMain border-y border-slate-300">
+                                    <th class="p-3 font-bold border-r border-slate-200">구분 / 국가</th>
+                                    <th class="p-3 font-bold border-r border-slate-200">인상 주요 내용</th>
+                                    <th class="p-3 font-bold">여행객 체감 영향</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-bold text-slate-900 border-r border-slate-200">일본 (전역)</td>
+                                    <td class="p-3 text-slate-700 border-r border-slate-200">출국세 3배 인상 (1,000엔 → 3,000엔) 및 주요 관광지 이중가격제</td>
+                                    <td class="p-3 text-krdsAccent font-bold">항공권 기본 가격 상승 및 현지 지출 증가</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-bold text-slate-900 border-r border-slate-200">프랑스 파리</td>
+                                    <td class="p-3 text-slate-700 border-r border-slate-200">루브르 박물관 등 주요 문화재 입장료 일괄 인상</td>
+                                    <td class="p-3 text-slate-700">유럽 자유여행 필수 관람 비용 증가</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-bold text-slate-900 border-r border-slate-200">이탈리아 로마</td>
+                                    <td class="p-3 text-slate-700 border-r border-slate-200">트레비 분수 유료화 및 판테온 사전예약 필수 전환</td>
+                                    <td class="p-3 text-slate-700">오버투어리즘 제재로 예약 피로도 상승</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-bold text-slate-900 border-r border-slate-200">대한민국 국내</td>
+                                    <td class="p-3 text-slate-700 border-r border-slate-200">내국인 여권 발급 수수료 2,000원 인상 (3월부터)</td>
+                                    <td class="p-3 text-slate-700">여행 준비 전단계 비용 소폭 상승</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (KRDS Style) -->
+    <footer class="bg-slate-900 text-white border-t border-slate-800 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400 space-y-2">
+            <p class="text-slate-300 font-semibold">2026년 한국 해외여행 동향 및 산업 구조 재편 심층 보고서 기반 대시보드</p>
+            <p>데이터 출처: 한국관광공사, 야놀자리서치, 한국문화관광연구원, 소비자단체협의회 및 주요 항공사/OTA 실측 지표</p>
+            <p class="text-slate-500 pt-2"> 본 대시보드는 KRDS (Korea Design System) 가이드라인을 기반으로 제작되었습니다.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic & Chart Initialization -->
+    <script>
+        // Tab Navigation Function
+        function switchTab(tabKey) {
+            const tabs = ['macro', 'aviation', 'destination', 'platform', 'trend'];
+            tabs.forEach(t => {
+                const sec = document.getElementById(`sec-${t}`);
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tabKey) {
+                    sec.classList.remove('hidden');
+                    btn.classList.add('active');
+                } else {
+                    sec.classList.add('hidden');
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Calculator Logic for Fuel Surcharge
+        function updateFuelCalc() {
+            const routeSelect = document.getElementById('calc-route');
+            const peopleSelect = document.getElementById('calc-people');
+            const tripSelect = document.getElementById('calc-trip');
+
+            const prices = {
+                "1": 49000,
+                "2": 65800,
+                "4": 116200,
+                "5": 162400,
+                "8": 322000,
+                "9": 362600
+            };
+
+            const oneWayPrice = prices[routeSelect.value];
+            const numPeople = parseInt(peopleSelect.value);
+            const multiplier = parseInt(tripSelect.value);
+
+            const total = oneWayPrice * numPeople * multiplier;
+            const savings = Math.round(total * 0.41);
+
+            document.getElementById('res-total').innerText = total.toLocaleString() + ' 원';
+            document.getElementById('res-savings').innerText = '약 ' + savings.toLocaleString() + ' 원 절감 추정';
+
+            const shareElem = document.getElementById('res-share');
+            if (parseInt(routeSelect.value) >= 8) {
+                shareElem.innerText = '약 35~45% 잠식 (심각한 부담)';
+                shareElem.className = 'text-lg font-bold text-krdsAccent';
+            } else if (parseInt(routeSelect.value) >= 4) {
+                shareElem.innerText = '약 20~30% 잠식 (중등도 부담)';
+                shareElem.className = 'text-lg font-bold text-amber-600';
+            } else {
+                shareElem.innerText = '약 10~15% 수준 (단거리 방어 가능)';
+                shareElem.className = 'text-lg font-bold text-krdsSecondary';
+            }
+        }
+
+        // Initialize Charts when DOM Ready (KRDS Colors)
+        document.addEventListener('DOMContentLoaded', () => {
+            const wrapLabel = (str) => {
+                if (str.length > 16) {
+                    return [str.slice(0, 16), str.slice(16)];
+                }
+                return str;
+            };
+
+            // 1. Chart: Macro Spending & Exchange Rate Impact
+            const ctxMacro = document.getElementById('macroChart').getContext('2d');
+            new Chart(ctxMacro, {
+                type: 'bar',
+                data: {
+                    labels: ['1인당 해외 지출액 ($)', '방한 외래객 지출액 ($)', '원화 체감 지출 변동률 (%)'],
+                    datasets: [
+                        {
+                            label: '2019년/전년 기준',
+                            data: [1057.6, 1130.2, 0],
+                            backgroundColor: '#94A3B8',
+                            borderRadius: 4
+                        },
+                        {
+                            label: '2026년 상반기 실적',
+                            data: [993.7, 1270.4, 32.9],
+                            backgroundColor: ['#D9381E', '#059669', '#004EA2'],
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // 2. Chart: Top Destinations (2025 vs 2026 Projected/H1)
+            const ctxDest = document.getElementById('destinationChart').getContext('2d');
+            new Chart(ctxDest, {
+                type: 'bar',
+                data: {
+                    labels: ['일본', '베트남', '중국', '미국', '태국'].map(wrapLabel),
+                    datasets: [
+                        {
+                            label: '2025년 전체 (만 명)',
+                            data: [946, 433, 316, 164, 155],
+                            backgroundColor: '#CBD5E1',
+                            borderRadius: 4
+                        },
+                        {
+                            label: '2026년 상반기 (만 명)',
+                            data: [567.5, 216.0, 171.4, 63.2, 75.0],
+                            backgroundColor: '#004EA2',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    },
+                    scales: {
+                        x: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // 3. Chart: Platform Paradox (MAU vs Real Revenue)
+            const ctxPlatform = document.getElementById('platformChart').getContext('2d');
+            new Chart(ctxPlatform, {
+                type: 'bar',
+                data: {
+                    labels: ['야놀자 (토종)', '여기어때 (토종)', '아고다 (글로벌)', '트립닷컴 (글로벌)'].map(wrapLabel),
+                    datasets: [
+                        {
+                            label: '월간 이용자 MAU (만 명)',
+                            data: [343, 326, 202, 257],
+                            backgroundColor: '#004EA2',
+                            yAxisID: 'yMAU',
+                            borderRadius: 4
+                        },
+                        {
+                            label: '월 실결제액 (억 원)',
+                            data: [832, 600, 2841, 1917],
+                            backgroundColor: '#D9381E',
+                            yAxisID: 'yRevenue',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    },
+                    scales: {
+                        yMAU: {
+                            type: 'linear',
+                            position: 'left',
+                            title: { display: true, text: 'MAU (만 명)' },
+                            beginAtZero: true
+                        },
+                        yRevenue: {
+                            type: 'linear',
+                            position: 'right',
+                            title: { display: true, text: '실결제액 (억 원)' },
+                            beginAtZero: true,
+                            grid: { drawOnChartArea: false }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
